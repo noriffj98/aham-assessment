@@ -10,17 +10,35 @@ Relationships
 
 */
 
--- Drop existing tables if they exist
-IF OBJECT_ID('dbo.FundManagers', 'U') IS NOT NULL
-    DROP TABLE dbo.FundManagers;
+-- Drop the foreign key constraint in Funds if it exists
+DECLARE @fk_name NVARCHAR(255);
 
+SELECT @fk_name = name
+FROM sys.foreign_keys
+WHERE parent_object_id = OBJECT_ID('dbo.Funds');
+
+IF @fk_name IS NOT NULL
+BEGIN
+    DECLARE @sql NVARCHAR(MAX);
+    SET @sql = 'ALTER TABLE Funds DROP CONSTRAINT ' + @fk_name;
+    EXEC sp_executesql @sql;
+END;
+
+-- Drop the Funds table if it exists
 IF OBJECT_ID('dbo.Funds', 'U') IS NOT NULL
+BEGIN
     DROP TABLE dbo.Funds;
+END;
 
+-- Drop the FundManagers table if it exists
+IF OBJECT_ID('dbo.FundManagers', 'U') IS NOT NULL
+BEGIN
+    DROP TABLE dbo.FundManagers;
+END;
 
 -- Create FundManagers table
 CREATE TABLE FundManagers (
-    name NVARCHAR(255) PRIMARY KEY 
+    name NVARCHAR(255) PRIMARY KEY
 );
 
 -- Create Funds table
