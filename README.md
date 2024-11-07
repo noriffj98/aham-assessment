@@ -52,7 +52,7 @@ This repository contains my implementation for the Backend Developer Practical A
 
 2. **Execute SQL Scripts**:
    - Run the `initial.sql` script to set up the database schema.
-   - Use the `migration.sql` script to migrate data from `funds.json` to the SQL database.
+   - Use the `migration.sql` script to migrate data from `funds.json` to the SQL database (Change the JSON file path if necessary).
 
 3. **Run Tests**:
    - Execute `test_app.py` to verify the API and database functionality:
